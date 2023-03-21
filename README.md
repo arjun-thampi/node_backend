@@ -1,2 +1,2 @@
-# node_backend
-node, express, prisma, postgresql
+# NodeBackend
+Node,express,prisma,postgres

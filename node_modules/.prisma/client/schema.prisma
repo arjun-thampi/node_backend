@@ -1,0 +1,42 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model user {
+  id     String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name       String
+  email      String   @unique
+  password   String
+  phone      String
+  created_at DateTime @default(now())
+
+  libManage libManage[]
+}
+model books {
+  id        String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name       String
+  author     String
+  price      Int
+  libManage libManage[]
+
+}
+model libManage{
+  id        String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id   String @db.Uuid()
+  user      user   @relation(fields: [user_id], references: [id])
+  book_id   String @db.Uuid()
+  books     books @relation(fields: [book_id],references: [id])
+  book_taken Boolean?  @default(false)
+  booktaken_at   DateTime?
+  book_returned Boolean?  @default(false)
+  bookreturned_at   DateTime?
+
+} 
