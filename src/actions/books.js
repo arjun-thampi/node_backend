@@ -7,6 +7,16 @@ const addBook = async (req, res) => {
   try {
     const { name, author, price } = req.body;
 
+    const existingContent = await prisma.books.findFirst({
+      where: {
+        name: name,
+      },
+    });
+
+    if (existingContent) {
+      return res.status(400).json({ error: "content already exist" });
+    }
+
     const book = await prisma.books.create({
       data: {
         name,

@@ -2,12 +2,13 @@ import express from "express";
 const router = express.Router();
 
 import actions from "../actions/users.js";
+import authenticate from "../middlewares/auth.js";
 
 //add users
 router.post("/register", actions.register);
 
 //get user
-router.get("/all", actions.authenticate, actions.getAll);
+router.get("/all", authenticate, actions.getAll);
 
 //update user
 router.put("/:id", actions.updateOne);
